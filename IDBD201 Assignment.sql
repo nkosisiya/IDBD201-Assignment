@@ -43,7 +43,7 @@ CREATE TABLE SALE(
 )ENGINE = InnoDB
 
 CREATE TABLE Publisher (
-    Publisher_ID INT    PRIMARY KEY,
+    Publisher_ID INT    PRIMARY KEY NOT NULL,
     Pub_Name TEXT NOT NULL,
     Pub_Email TEXT,
     Pub_Country TEXT,
