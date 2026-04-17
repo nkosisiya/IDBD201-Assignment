@@ -41,3 +41,10 @@ CREATE TABLE SALE(
     SaleTotal DECIMALE(10,2),
     
 )ENGINE = InnoDB
+
+CREATE TABLE Publisher (
+    Publisher_ID INT    PRIMARY KEY,
+    Pub_Name TEXT NOT NULL,
+    Pub_Email TEXT,
+    Pub_Country TEXT,
+)ENGINE = InnoDB
