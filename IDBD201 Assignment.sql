@@ -11,7 +11,7 @@ CREATE TABLE BOOK (
 
 --  BOOK_AUTHOR  (junction: BOOK ↔ AUTHOR)
 CREATE TABLE BOOK_AUTHOR (
-    ISBN      VARCHAR(255) NOT NULL,
+    ISBN      VARCHAR(50) NOT NULL,
     Author_ID INT         NOT NULL,
     PRIMARY KEY (ISBN, Author_ID),
     FOREIGN KEY (ISBN)      REFERENCES BOOK(ISBN),
@@ -40,11 +40,11 @@ CREATE TABLE SALE(
     SaleDate DATE,
     SaleTotal DECIMALE(10,2),
     
-)ENGINE = InnoDB
+)ENGINE = InnoDB;
 
 CREATE TABLE Publisher (
     Publisher_ID INT    PRIMARY KEY NOT NULL,
-    Pub_Name TEXT NOT NULL,
-    Pub_Email TEXT,
-    Pub_Country TEXT,
-)ENGINE = InnoDB
+    Pub_Name VARCHAR(100) NOT NULL,
+    Pub_Email VARCHAR(100) NOT NULL,
+    Pub_Country VARCHAR(50) NOT NULL,
+)ENGINE = InnoDB;
