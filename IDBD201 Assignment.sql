@@ -1,6 +1,4 @@
--- =========================
 -- PUBLISHER
--- =========================
 CREATE TABLE PUBLISHER (
     Publisher_ID INT PRIMARY KEY AUTO_INCREMENT,
     Pub_Name VARCHAR(100) NOT NULL,
@@ -8,10 +6,7 @@ CREATE TABLE PUBLISHER (
     Pub_Country VARCHAR(50) NOT NULL
 ) ENGINE = InnoDB;
 
-
--- =========================
 -- AUTHOR
--- =========================
 CREATE TABLE AUTHOR (
     Author_ID INT PRIMARY KEY AUTO_INCREMENT,
     First_Name VARCHAR(100) NOT NULL,
@@ -19,10 +14,7 @@ CREATE TABLE AUTHOR (
     Country_Origin VARCHAR(100) NOT NULL
 ) ENGINE = InnoDB;
 
-
--- =========================
 -- BOOK
--- =========================
 CREATE TABLE BOOK (
     ISBN VARCHAR(13) PRIMARY KEY,
     Title VARCHAR(200) NOT NULL,
@@ -33,10 +25,7 @@ CREATE TABLE BOOK (
     FOREIGN KEY (Publisher_ID) REFERENCES PUBLISHER(Publisher_ID)
 ) ENGINE = InnoDB;
 
-
--- =========================
--- BOOK_AUTHOR (M:N)
--- =========================
+-- BOOK_AUTHOR 
 CREATE TABLE BOOK_AUTHOR (
     ISBN VARCHAR(13) NOT NULL,
     Author_ID INT NOT NULL,
@@ -45,19 +34,13 @@ CREATE TABLE BOOK_AUTHOR (
     FOREIGN KEY (Author_ID) REFERENCES AUTHOR(Author_ID)
 ) ENGINE = InnoDB;
 
-
--- =========================
 -- SALE
--- =========================
 CREATE TABLE SALE (
     SaleID INT PRIMARY KEY AUTO_INCREMENT,
     SaleDate DATE NOT NULL
 ) ENGINE = InnoDB;
 
-
--- =========================
--- BOOK_SALE (M:N with quantity)
--- =========================
+-- BOOK_SALE 
 CREATE TABLE BOOK_SALE (
     ISBN VARCHAR(13) NOT NULL,
     SaleID INT NOT NULL,
@@ -67,25 +50,9 @@ CREATE TABLE BOOK_SALE (
     FOREIGN KEY (SaleID) REFERENCES SALE(SaleID)
 ) ENGINE = InnoDB;
 
-
--- =========================
--- BOOK_ORDER (Order header)
--- =========================
+-- BOOK_ORDER 
 CREATE TABLE BOOK_ORDER (
     OrderNo INT PRIMARY KEY AUTO_INCREMENT,
     OrderDate DATE NOT NULL,
     Received BOOLEAN DEFAULT FALSE
-) ENGINE = InnoDB;
-
-
--- =========================
--- BOOK_ORDER_ITEM (fixes normalisation)
--- =========================
-CREATE TABLE BOOK_ORDER_ITEM (
-    OrderNo INT NOT NULL,
-    ISBN VARCHAR(13) NOT NULL,
-    QuantityOrd INT NOT NULL,
-    PRIMARY KEY (OrderNo, ISBN),
-    FOREIGN KEY (OrderNo) REFERENCES BOOK_ORDER(OrderNo),
-    FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN)
 ) ENGINE = InnoDB;
