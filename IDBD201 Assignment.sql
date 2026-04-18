@@ -7,7 +7,7 @@ CREATE TABLE BOOK (
     Reorder_Level    INT            DEFAULT 5,
     Publisher_ID     INT NOT NULL,
     FOREIGN KEY (Publisher_ID) REFERENCES PUBLISHER(Publisher_ID)
-);
+)ENGINE = InnoDB;
 
 --  BOOK_AUTHOR  (junction: BOOK ↔ AUTHOR)
 CREATE TABLE BOOK_AUTHOR (
@@ -16,7 +16,7 @@ CREATE TABLE BOOK_AUTHOR (
     PRIMARY KEY (ISBN, Author_ID),
     FOREIGN KEY (ISBN)      REFERENCES BOOK(ISBN),
     FOREIGN KEY (Author_ID) REFERENCES AUTHOR(Author_ID)
-);
+)ENGINE = InnoDB;
 
 -- BookOrder
 CREATE TABLE BookOrder (
@@ -37,8 +37,8 @@ CREATE TABLE BookSale(
 
 CREATE TABLE SALE(
     SaleId  INT NOT NULL"Also dont forget to add your NOT NULL/NUll",
-    SaleDate DATE,
-    SaleTotal DECIMALE(10,2),
+    Sale_Date DATE,
+    Sale_Total DECIMALE(10,2),
     
 )ENGINE = InnoDB;
 
@@ -47,4 +47,12 @@ CREATE TABLE Publisher (
     Pub_Name VARCHAR(100) NOT NULL,
     Pub_Email VARCHAR(100) NOT NULL,
     Pub_Country VARCHAR(50) NOT NULL,
+)ENGINE = InnoDB;
+
+CREATE TABLE Author(
+    Author_ID  VARCHAR(255)
+    First_Name  VARCHAR(255) NOT NULL,
+    Surname VARCHAR(255) NOT NULL,
+    Country_Origin VARCHAR(255) NOT NULL,
+    PRIMARY KEY(Author_ID)
 )ENGINE = InnoDB;
