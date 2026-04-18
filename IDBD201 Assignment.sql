@@ -1,49 +1,91 @@
+-- =========================
+-- PUBLISHER
+-- =========================
 CREATE TABLE PUBLISHER (
-    Publisher_ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    Publisher_ID INT PRIMARY KEY AUTO_INCREMENT,
     Pub_Name VARCHAR(100) NOT NULL,
     Pub_Email VARCHAR(100) NOT NULL,
     Pub_Country VARCHAR(50) NOT NULL
-    )ENGINE = InnoDB;
-    
-    CREATE TABLE SALE(
-    SaleId  INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    SaleDate DATE,
-    SaleTotal DECIMAL(10,2)
-    
-)ENGINE = InnoDB;
-    
+) ENGINE = InnoDB;
+
+
+-- =========================
+-- AUTHOR
+-- =========================
+CREATE TABLE AUTHOR (
+    Author_ID INT PRIMARY KEY AUTO_INCREMENT,
+    First_Name VARCHAR(100) NOT NULL,
+    Surname VARCHAR(100) NOT NULL,
+    Country_Origin VARCHAR(100) NOT NULL
+) ENGINE = InnoDB;
+
+
+-- =========================
+-- BOOK
+-- =========================
 CREATE TABLE BOOK (
-    ISBN             VARCHAR(255)    PRIMARY KEY,
-    Title            VARCHAR(200)   NOT NULL,
-    Price            DECIMAL(10,2),
-    Quantity_on_Hand INT            DEFAULT 0,
-    Reorder_Level    INT            DEFAULT 5,
-    Publisher_ID     INT NOT NULL,
+    ISBN VARCHAR(13) PRIMARY KEY,
+    Title VARCHAR(200) NOT NULL,
+    Price DECIMAL(10,2) NOT NULL,
+    Quantity_on_Hand INT DEFAULT 0,
+    Reorder_Level INT DEFAULT 5,
+    Publisher_ID INT NOT NULL,
     FOREIGN KEY (Publisher_ID) REFERENCES PUBLISHER(Publisher_ID)
-);
+) ENGINE = InnoDB;
 
 
+-- =========================
+-- BOOK_AUTHOR (M:N)
+-- =========================
 CREATE TABLE BOOK_AUTHOR (
-    ISBN      VARCHAR(225) NOT NULL,
-    Author_ID INT         NOT NULL,
+    ISBN VARCHAR(13) NOT NULL,
+    Author_ID INT NOT NULL,
     PRIMARY KEY (ISBN, Author_ID),
-    FOREIGN KEY (ISBN)      REFERENCES BOOK(ISBN),
+    FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN),
     FOREIGN KEY (Author_ID) REFERENCES AUTHOR(Author_ID)
-);
+) ENGINE = InnoDB;
 
 
-CREATE TABLE BookOrder (
-    OrderNo     INT         PRIMARY KEY AUTO_INCREMENT,
-    QuantityOrd INT         NOT NULL,
-    Received    BOOLEAN DEFAULT FALSE,
-    ISBN        VARCHAR(255) NOT NUll,
+-- =========================
+-- SALE
+-- =========================
+CREATE TABLE SALE (
+    SaleID INT PRIMARY KEY AUTO_INCREMENT,
+    SaleDate DATE NOT NULL
+) ENGINE = InnoDB;
+
+
+-- =========================
+-- BOOK_SALE (M:N with quantity)
+-- =========================
+CREATE TABLE BOOK_SALE (
+    ISBN VARCHAR(13) NOT NULL,
+    SaleID INT NOT NULL,
+    Quantity INT NOT NULL,
+    PRIMARY KEY (ISBN, SaleID),
+    FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN),
+    FOREIGN KEY (SaleID) REFERENCES SALE(SaleID)
+) ENGINE = InnoDB;
+
+
+-- =========================
+-- BOOK_ORDER (Order header)
+-- =========================
+CREATE TABLE BOOK_ORDER (
+    OrderNo INT PRIMARY KEY AUTO_INCREMENT,
+    OrderDate DATE NOT NULL,
+    Received BOOLEAN DEFAULT FALSE
+) ENGINE = InnoDB;
+
+
+-- =========================
+-- BOOK_ORDER_ITEM (fixes normalisation)
+-- =========================
+CREATE TABLE BOOK_ORDER_ITEM (
+    OrderNo INT NOT NULL,
+    ISBN VARCHAR(13) NOT NULL,
+    QuantityOrd INT NOT NULL,
+    PRIMARY KEY (OrderNo, ISBN),
+    FOREIGN KEY (OrderNo) REFERENCES BOOK_ORDER(OrderNo),
     FOREIGN KEY (ISBN) REFERENCES BOOK(ISBN)
-)ENGINE = InnoDB;
-
-CREATE TABLE BookSale(
-    ISBN     VARCHAR(255) NOT NUll,
-    SaleID    INT  NOT NULL,
-    PRIMARY KEY(ISBN, SaleID),
-    FOREIGN KEY(ISBN) REFERENCES BOOK(ISBN),
-    FOREIGN KEY(SaleID) REFERENCES SALE(SaleID)
-)ENGINE = InnoDB;  
+) ENGINE = InnoDB;
